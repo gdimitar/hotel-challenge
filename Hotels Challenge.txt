@@ -1,0 +1,46 @@
+Hotels Backend Challenge
+
+You are creating backend for hotel review application.
+
+Application supports two types of users: administrators and regular users. Administrators
+can add and modify information on hotels to be reviewed. Users can add hotel reviews and
+like or dislike reviews added by other users. Users cannot modify hotel information. User
+has a list of favourite hotels.
+
+Hotel information contains data on hotel name, address, image (one per hotel), description,
+geolocation and overall rating. Overall rating is calculated based on user reviews (hotel
+rating, likes and dislikes for the review, number of occurrences in user favourites). You can
+decide on the formula to calculate overall rating.
+
+Hotel review is created by any type of user and contains information on review author,
+hotel rating (0-5), description text.
+
+All users can like or dislike a hotel review only once and can remove only his/her own
+likes/ dislikes. User can view the list of users who liked/ disliked any of the hotel reviews.
+
+Tasks
+1. Accounts (20)
+    a. Implement Sign up as regular user (email, display name, password)
+        Administrator user can be pre-seeded in the database
+    b. Implement Sign in using email and password
+    c. Email verification (if you have extra time)
+2. Hotels (25)
+    a. View list of hotels ordered by name ascending
+    b. Add hotel with all details
+    c. View hotel details
+    d. Edit hotel details
+    e. Search for hotels based on their name and/or address (ie. city)
+3. Favorites (10)
+    a. Add hotel to favorites
+    b. Remove hotel from favorites
+    c. View my favorite hotels
+4. Likes/dislikes (20)
+    a. Like hotel review
+    b. Remove hotel review like
+    c. Dislike hotel review
+    d. Remove hotel review dislike
+5. Reviews (25)
+    a. Create hotel review (description text, rating [0-5])
+    b. View list of reviews for a hotel
+    c. View users who liked a hotel review
+    d. View users who disliked a hotel review

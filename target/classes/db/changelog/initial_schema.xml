@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="01" author="dgavrilov">
+        <createTable tableName="user"
+            remarks="A table that contains all users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="display_name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="role"
+            remarks="A table that contains all roles">
+            <column name="name" type="varchar(50)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="user_role">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert tableName="role">
+            <column name="name" value="REGULAR"/>
+        </insert>
+        <insert tableName="role">
+            <column name="name" value="ADMINISTRATOR"/>
+        </insert>
+
+        <createTable tableName="hotelinformation"
+            remarks="A table that contains data for hotel information">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="address" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="latitude" type="long">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="long">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="long">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="favoritehotel">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"
+                    foreignKeyName="fk_fav_user_id"
+                    referencedTableName="user"
+                    referencedColumnNames="id"/>
+            </column>
+            <column name="hotel_id" type="bigint">
+                <constraints nullable="false"
+                    foreignKeyName="fk_fav_hotel_id"
+                    referencedTableName="hotelinformation"
+                    referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hotelreviews">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hotel_id" type="bigint">
+                <constraints nullable="false"
+                    foreignKeyName="fk_rev_hotel_id"
+                    referencedTableName="hotelinformation"
+                    referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
