@@ -2,8 +2,8 @@ package com.hotelchallenge.constants;
 
 public final class RoleConstants {
 
-    public static final String ADMIN = "ROLE_ADMIN";
-    public static final String USER = "ROLE_USER";
+    public static final String ROLE_ADMIN_USER = "ADMINISTRATOR";
+    public static final String ROLE_REGULAR_USER = "REGULAR";
 
     private RoleConstants() {
     }

@@ -24,9 +24,11 @@ public class HotelService {
         this.hotelMapper = hotelMapper;
     }
 
-    public void createHotel(final HotelDTO hotelDTO) {
+    public Hotel createHotel(final HotelDTO hotelDTO) {
         final Hotel hotel = hotelMapper.createHotel(hotelDTO);
         hotelRepository.save(hotel);
+
+        return hotel;
     }
 
     @Transactional(readOnly = true)
@@ -34,18 +36,18 @@ public class HotelService {
         return hotelRepository.findAllOrderByNameAsc(pageable);
     }
 
-    public Hotel editHotel(final HotelDTO hotelDTO) {
+    public Optional<Hotel> editHotel(final HotelDTO hotelDTO) {
         if (hotelDTO != null && !StringUtils.isEmpty(hotelDTO.getName())) {
             final Optional<Hotel> hotel = hotelRepository.findById(hotelDTO.getId());
 
-            hotel.map(h -> {
-                hotelMapper.updateHotel(h, hotelDTO);
-                hotelRepository.save(h);
-                return h;
-            });
+            if (hotel.isPresent()) {
+                hotelMapper.updateHotel(hotel.get(), hotelDTO);
+                hotelRepository.save(hotel.get());
+                return hotel;
+            }
         }
 
-        return null;
+        return Optional.empty();
     }
 
     public Page<Hotel> search(final Pageable pageable, final String name, final String address) {

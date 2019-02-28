@@ -15,11 +15,8 @@ public final class ResponseUtil {
         return wrapOrNotFound(maybeResponse, null);
     }
 
-    public static <X> ResponseEntity<X> wrapOrNotFound(final Optional<X> maybeResponse, final HttpHeaders header) {
-        if (maybeResponse.isPresent()) {
-            return ResponseEntity.ok().headers(header).body(maybeResponse.get());
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    private static <X> ResponseEntity<X> wrapOrNotFound(final Optional<X> maybeResponse, final HttpHeaders header) {
+        return maybeResponse.map(x -> ResponseEntity.ok().headers(header).body(x))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
