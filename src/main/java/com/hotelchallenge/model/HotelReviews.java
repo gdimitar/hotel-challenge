@@ -1,5 +1,6 @@
 package com.hotelchallenge.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,9 @@ public class HotelReviews {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "description")
     private String description;
+    @Column(name = "rating")
     private Integer rating;
     @ManyToOne
     @JoinColumn(name = "hotel_id")

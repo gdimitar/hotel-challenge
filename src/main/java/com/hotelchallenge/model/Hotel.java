@@ -1,5 +1,6 @@
 package com.hotelchallenge.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,12 +14,19 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "address")
     private String address;
+    @Column(name = "image")
     private String image;
+    @Column(name = "description")
     private String description;
+    @Column(name = "latitude")
     private Long latitude;
+    @Column(name = "longitude")
     private Long longitude;
+    @Column(name = "rating")
     private Long rating;
 
     public Long getId() {
