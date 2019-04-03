@@ -57,6 +57,6 @@ public class HotelServiceTest {
 
     @Test
     public void testEditHotelEmptyHotelName() {
-        assertNull(hotelService.editHotel(hotelDTO));
+        assertEquals(Optional.empty(), hotelService.editHotel(hotelDTO));
     }
 }

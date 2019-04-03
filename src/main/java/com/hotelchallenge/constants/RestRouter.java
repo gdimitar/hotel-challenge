@@ -30,8 +30,8 @@ public final class RestRouter {
 
     public class Reviews {
 
-        public static final String ADD = "/api/hotels/reviews";
-        public static final String LIST = "/api/hotels/{hotelId}";
+        public static final String ADD = "/api/reviews";
+        public static final String LIST = "/api/reviews/{hotelId}";
 
         private Reviews() {
 

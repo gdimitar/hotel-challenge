@@ -37,17 +37,15 @@ public class HotelRest {
 
     @PostMapping(path = RestRouter.Hotel.REGISTER,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity registerHotel(final @Valid @RequestBody HotelDTO hotelDTO) {
-        final HttpHeaders textPlainHeaders = new HttpHeaders();
-        textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
+    public ResponseEntity<Long> registerHotel(final @Valid @RequestBody HotelDTO hotelDTO) {
+        final Optional<Hotel> hotel = hotelRepository.findByName(hotelDTO.getName());
 
-        return hotelRepository.findByName(hotelDTO.getName())
-                .map(hotel -> new ResponseEntity<>("hotel is already created", textPlainHeaders,
-                        HttpStatus.BAD_REQUEST))
-                .orElseGet(() -> {
-                    hotelService.createHotel(hotelDTO);
-                    return new ResponseEntity<>(HttpStatus.CREATED);
-                });
+        if (hotel.isPresent()) {
+            return new ResponseEntity<>(hotel.get().getId(), HttpStatus.BAD_REQUEST);
+        }
+
+        final Hotel newHotel = hotelService.createHotel(hotelDTO);
+        return new ResponseEntity<>(newHotel.getId(), HttpStatus.OK);
     }
 
     @GetMapping(RestRouter.Hotel.LIST)
@@ -67,9 +65,9 @@ public class HotelRest {
 
     @PostMapping(RestRouter.Hotel.LIST)
     public ResponseEntity<Hotel> editHotel(final @Valid @RequestBody HotelDTO hotelDTO) {
-        final Hotel hotel = hotelService.editHotel(hotelDTO);
+        final Optional<Hotel> hotel = hotelService.editHotel(hotelDTO);
 
-        return ResponseEntity.ok().body(hotel);
+        return ResponseUtil.wrapOrNotFound(hotel);
     }
 
     @GetMapping(RestRouter.Hotel.SEARCH)
