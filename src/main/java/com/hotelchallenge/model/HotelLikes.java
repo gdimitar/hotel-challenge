@@ -10,19 +10,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "hotelreviews")
-public class HotelReviews {
+@Table(name = "hotellikes")
+public class HotelLikes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "description")
-    private String description;
-    @Column(name = "rating")
-    private Integer rating;
+
+    @Column(name = "like")
+    private boolean like;
+
     @ManyToOne
-    @JoinColumn(name = "hotel_id")
-    private Hotel hotel;
+    @JoinColumn(name = "review_id")
+    private HotelReviews review;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -35,28 +36,20 @@ public class HotelReviews {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public boolean isLike() {
+        return like;
     }
 
-    public void setDescription(final String description) {
-        this.description = description;
+    public void setLike(final boolean like) {
+        this.like = like;
     }
 
-    public Integer getRating() {
-        return rating;
+    public HotelReviews getReview() {
+        return review;
     }
 
-    public void setRating(final Integer rating) {
-        this.rating = rating;
-    }
-
-    public Hotel getHotel() {
-        return hotel;
-    }
-
-    public void setHotel(final Hotel hotel) {
-        this.hotel = hotel;
+    public void setReview(final HotelReviews review) {
+        this.review = review;
     }
 
     public User getUser() {

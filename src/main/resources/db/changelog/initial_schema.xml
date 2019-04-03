@@ -108,6 +108,30 @@
                     referencedTableName="hotelinformation"
                     referencedColumnNames="id"/>
             </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"
+                    foreignKeyName="fk_rev_user_id"
+                    referencedTableName="user"
+                    referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="hotellikes">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="review_id" type="bigint">
+                <constraints nullable="false"
+                    foreignKeyName="fk_rev_review_id"
+                    referencedTableName="hotelreviews"
+                    referencedColumnNames="id"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"
+                    foreignKeyName="fk_rev_user_id"
+                    referencedTableName="user"
+                    referencedColumnNames="id"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

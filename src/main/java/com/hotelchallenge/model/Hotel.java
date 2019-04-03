@@ -1,10 +1,12 @@
 package com.hotelchallenge.model;
 
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +30,8 @@ public class Hotel {
     private Long longitude;
     @Column(name = "rating")
     private Long rating;
+    @OneToMany(mappedBy = "hotel", orphanRemoval = true)
+    private Set<HotelReviews> reviews;
 
     public Long getId() {
         return id;
@@ -91,5 +95,13 @@ public class Hotel {
 
     public void setRating(final Long rating) {
         this.rating = rating;
+    }
+
+    public Set<HotelReviews> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(final Set<HotelReviews> reviews) {
+        this.reviews = reviews;
     }
 }
