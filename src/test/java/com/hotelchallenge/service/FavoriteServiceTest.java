@@ -3,7 +3,7 @@ package com.hotelchallenge.service;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.hotelchallenge.dto.FavoritesDTO;
+import com.hotelchallenge.data.FavoritesData;
 import com.hotelchallenge.mapper.FavoriteMapper;
 import com.hotelchallenge.model.FavoriteHotel;
 import com.hotelchallenge.model.Hotel;
@@ -42,13 +42,13 @@ public class FavoriteServiceTest {
     @Mock
     private FavoriteHotel favoriteHotel;
 
-    private FavoritesDTO favoritesDTO;
+    private FavoritesData favoritesData;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        favoritesDTO = createFavorites();
+        favoritesData = createFavorites();
     }
 
     @Test
@@ -57,7 +57,7 @@ public class FavoriteServiceTest {
         doReturn(Optional.of(hotel)).when(hotelRepository).findByName(HOTEL_NAME);
         doReturn(favoriteHotel).when(favoriteMapper).createFavoriteHotel(user, hotel);
 
-        final FavoriteHotel favoriteHotel = service.addHotelToFavorite(favoritesDTO);
+        final FavoriteHotel favoriteHotel = service.addHotelToFavorite(favoritesData);
 
         verify(favoriteRepository).save(favoriteHotel);
     }
@@ -71,14 +71,14 @@ public class FavoriteServiceTest {
     public void testAddFavoriteHotelNoUserEmail() {
         doReturn(Optional.of(hotel)).when(hotelRepository).findByName(HOTEL_NAME);
 
-        assertNull(service.addHotelToFavorite(favoritesDTO));
+        assertNull(service.addHotelToFavorite(favoritesData));
     }
 
     @Test
     public void testAddFavoriteHotelNoHotelName() {
         doReturn(Optional.of(user)).when(userRepository).findByEmail(USER_EMAIL);
 
-        assertNull(service.addHotelToFavorite(favoritesDTO));
+        assertNull(service.addHotelToFavorite(favoritesData));
     }
 
     @Test
@@ -99,8 +99,8 @@ public class FavoriteServiceTest {
         verify(favoriteRepository, never()).delete(favoriteHotel);
     }
 
-    private FavoritesDTO createFavorites() {
-        final FavoritesDTO dto = new FavoritesDTO();
+    private FavoritesData createFavorites() {
+        final FavoritesData dto = new FavoritesData();
         dto.setHotelName(FavoriteServiceTest.HOTEL_NAME);
         dto.setUserEmail(FavoriteServiceTest.USER_EMAIL);
 

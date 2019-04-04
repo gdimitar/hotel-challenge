@@ -1,12 +1,13 @@
-package com.hotelchallenge.dto;
+package com.hotelchallenge.data;
 
-public class FavoritesDTO {
+public class FavoritesData {
 
     private String userEmail;
     private String hotelName;
 
-    public FavoritesDTO() {
-
+    public FavoritesData(final String userEmail, final String hotelName) {
+        this.userEmail = userEmail;
+        this.hotelName = hotelName;
     }
 
     public String getUserEmail() {

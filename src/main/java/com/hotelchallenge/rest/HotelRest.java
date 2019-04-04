@@ -1,7 +1,7 @@
 package com.hotelchallenge.rest;
 
 import com.hotelchallenge.constants.RestRouter;
-import com.hotelchallenge.dto.HotelDTO;
+import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.repository.HotelRepository;
 import com.hotelchallenge.service.HotelService;
@@ -37,14 +37,14 @@ public class HotelRest {
 
     @PostMapping(path = RestRouter.Hotel.REGISTER,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<Long> registerHotel(final @Valid @RequestBody HotelDTO hotelDTO) {
-        final Optional<Hotel> hotel = hotelRepository.findByName(hotelDTO.getName());
+    public ResponseEntity<Long> registerHotel(final @Valid @RequestBody HotelData hotelData) {
+        final Optional<Hotel> hotel = hotelRepository.findByName(hotelData.getName());
 
         if (hotel.isPresent()) {
             return new ResponseEntity<>(hotel.get().getId(), HttpStatus.BAD_REQUEST);
         }
 
-        final Hotel newHotel = hotelService.createHotel(hotelDTO);
+        final Hotel newHotel = hotelService.createHotel(hotelData);
         return new ResponseEntity<>(newHotel.getId(), HttpStatus.OK);
     }
 
@@ -64,8 +64,8 @@ public class HotelRest {
     }
 
     @PostMapping(RestRouter.Hotel.LIST)
-    public ResponseEntity<Hotel> editHotel(final @Valid @RequestBody HotelDTO hotelDTO) {
-        final Optional<Hotel> hotel = hotelService.editHotel(hotelDTO);
+    public ResponseEntity<Hotel> editHotel(final @Valid @RequestBody HotelData hotelData) {
+        final Optional<Hotel> hotel = hotelService.editHotel(hotelData);
 
         return ResponseUtil.wrapOrNotFound(hotel);
     }

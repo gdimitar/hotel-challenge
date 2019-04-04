@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.hotelchallenge.TestApplication;
 import com.hotelchallenge.constants.RestRouter;
 import com.hotelchallenge.constants.RoleConstants;
-import com.hotelchallenge.dto.UserDTO;
+import com.hotelchallenge.data.UserData;
 import com.hotelchallenge.model.User;
 import com.hotelchallenge.repository.UserRepository;
 import java.util.Optional;
@@ -24,11 +24,11 @@ public class UserRestTest extends TestApplication {
     @Test
     @Transactional
     public void testUserRegister() throws Exception {
-        final UserDTO userDTO = new UserDTO("test@test.com", "Dimitar Gavrilov", "testPassword");
+        final UserData userData = new UserData("test@test.com", "Dimitar Gavrilov", "testPassword");
 
         mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.User.REGISTER)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(userData)))
                 .andExpect(status().isCreated());
 
         final Optional<User> user = userRepository.findByEmail("test@test.com");
@@ -42,17 +42,17 @@ public class UserRestTest extends TestApplication {
     @Test
     @Transactional
     public void testUserAlreadyRegistered() throws Exception {
-        final UserDTO userDTO = new UserDTO("test@test.com", "Dimitar Gavrilov", "testPassword");
+        final UserData userData = new UserData("test@test.com", "Dimitar Gavrilov", "testPassword");
 
         mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.User.REGISTER)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(userDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(userData)))
                 .andExpect(status().isCreated());
 
-        final UserDTO newUserDTO = new UserDTO("test@test.com", "Dimitar1 Gavrilov1", "testPassword1");
+        final UserData newUserData = new UserData("test@test.com", "Dimitar1 Gavrilov1", "testPassword1");
         final MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.User.REGISTER)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(newUserDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(newUserData)))
                 .andExpect(status().isBadRequest()).andReturn();
 
         assertEquals("email address already in use", mvcResult.getResponse().getContentAsString());

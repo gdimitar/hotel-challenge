@@ -3,7 +3,7 @@ package com.hotelchallenge.service;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.hotelchallenge.dto.ReviewDTO;
+import com.hotelchallenge.data.ReviewData;
 import com.hotelchallenge.mapper.HotelReviewsMapper;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.model.HotelReviews;
@@ -47,13 +47,13 @@ public class ReviewsServiceTest {
     @Mock
     private Page<HotelReviews> hotelReviewsPage;
 
-    private final ReviewDTO reviewDTO = new ReviewDTO();
+    private final ReviewData reviewData = new ReviewData();
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        reviewDTO.setHotelName(HOTEL_NAME);
+        reviewData.setHotelName(HOTEL_NAME);
         doReturn(Optional.of(hotel)).when(hotelRepository).findByName(HOTEL_NAME);
         doReturn(Optional.of(hotel)).when(hotelRepository).findById(HOTEL_ID);
 
@@ -63,9 +63,9 @@ public class ReviewsServiceTest {
 
     @Test
     public void testAddReview() {
-        doReturn(hotelReviews).when(hotelReviewsMapper).createHotelReview(reviewDTO, hotel);
+        doReturn(hotelReviews).when(hotelReviewsMapper).createHotelReview(reviewData, hotel);
 
-        service.addReview(reviewDTO);
+        service.addReview(reviewData);
 
         verify(reviewsRepository).save(hotelReviews);
     }
@@ -74,7 +74,7 @@ public class ReviewsServiceTest {
     public void testNoHotelFound() {
         doReturn(Optional.empty()).when(hotelRepository).findByName(HOTEL_NAME);
 
-        service.addReview(reviewDTO);
+        service.addReview(reviewData);
 
         verify(reviewsRepository, never()).save(hotelReviews);
     }

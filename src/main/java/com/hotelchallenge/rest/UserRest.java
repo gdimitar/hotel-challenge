@@ -1,7 +1,7 @@
 package com.hotelchallenge.rest;
 
 import com.hotelchallenge.constants.RestRouter;
-import com.hotelchallenge.dto.UserDTO;
+import com.hotelchallenge.data.UserData;
 import com.hotelchallenge.model.User;
 import com.hotelchallenge.repository.UserRepository;
 import com.hotelchallenge.service.UserService;
@@ -27,16 +27,16 @@ public class UserRest {
 
     @PostMapping(path = RestRouter.User.REGISTER,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity registerUser(final @Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity registerUser(final @Valid @RequestBody UserData userData) {
 
         final HttpHeaders textPlainHeaders = new HttpHeaders();
         textPlainHeaders.setContentType(MediaType.TEXT_PLAIN);
 
-        return userRepository.findByEmail(userDTO.getEmail())
+        return userRepository.findByEmail(userData.getEmail())
                 .map(user -> new ResponseEntity<>("email address already in use", textPlainHeaders,
                         HttpStatus.BAD_REQUEST))
                 .orElseGet(() -> {
-                    final User user = userService.createUser(userDTO);
+                    final User user = userService.createUser(userData);
                     userRepository.save(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
                 });

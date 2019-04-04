@@ -1,6 +1,6 @@
 package com.hotelchallenge.service;
 
-import com.hotelchallenge.dto.HotelDTO;
+import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.mapper.HotelMapper;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.repository.HotelRepository;
@@ -24,8 +24,8 @@ public class HotelService {
         this.hotelMapper = hotelMapper;
     }
 
-    public Hotel createHotel(final HotelDTO hotelDTO) {
-        final Hotel hotel = hotelMapper.createHotel(hotelDTO);
+    public Hotel createHotel(final HotelData hotelData) {
+        final Hotel hotel = hotelMapper.createHotel(hotelData);
         hotelRepository.save(hotel);
 
         return hotel;
@@ -36,12 +36,12 @@ public class HotelService {
         return hotelRepository.findAllOrderByNameAsc(pageable);
     }
 
-    public Optional<Hotel> editHotel(final HotelDTO hotelDTO) {
-        if (hotelDTO != null && !StringUtils.isEmpty(hotelDTO.getName())) {
-            final Optional<Hotel> hotel = hotelRepository.findById(hotelDTO.getId());
+    public Optional<Hotel> editHotel(final HotelData hotelData) {
+        if (hotelData != null && !StringUtils.isEmpty(hotelData.getName())) {
+            final Optional<Hotel> hotel = hotelRepository.findById(hotelData.getId());
 
             if (hotel.isPresent()) {
-                hotelMapper.updateHotel(hotel.get(), hotelDTO);
+                hotelMapper.updateHotel(hotel.get(), hotelData);
                 hotelRepository.save(hotel.get());
                 return hotel;
             }

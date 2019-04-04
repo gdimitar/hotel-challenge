@@ -1,17 +1,13 @@
-package com.hotelchallenge.dto;
+package com.hotelchallenge.data;
 
-public class UserDTO {
+public class UserData {
 
     private Long id;
     private String email;
     private String displayName;
     private String password;
 
-    public UserDTO() {
-
-    }
-
-    public UserDTO(final String email, final String displayName, final String password) {
+    public UserData(final String email, final String displayName, final String password) {
         this.email = email;
         this.displayName = displayName;
         this.password = password;

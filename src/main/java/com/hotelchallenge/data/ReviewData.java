@@ -1,14 +1,16 @@
-package com.hotelchallenge.dto;
+package com.hotelchallenge.data;
 
-public class ReviewDTO {
+public class ReviewData {
 
     private Long id;
     private String description;
     private Integer rating;
     private String hotelName;
 
-    public ReviewDTO() {
-
+    public ReviewData(final String description, final Integer rating, final String hotelName) {
+        this.description = description;
+        this.rating = rating;
+        this.hotelName = hotelName;
     }
 
     public Long getId() {
