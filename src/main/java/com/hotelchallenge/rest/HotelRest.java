@@ -5,15 +5,9 @@ import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.repository.HotelRepository;
 import com.hotelchallenge.service.HotelService;
-import com.hotelchallenge.util.PaginationUtil;
-import com.hotelchallenge.util.ResponseUtil;
-import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,33 +43,31 @@ public class HotelRest {
     }
 
     @GetMapping(RestRouter.Hotel.LIST)
-    public ResponseEntity<List<Hotel>> getAllHotels(final @ApiParam Pageable pageable) {
-        final Page<Hotel> hotels = hotelService.getAllHotels(pageable);
+    public ResponseEntity<List<Hotel>> getAllHotels() {
+        final List<Hotel> hotels = hotelService.getAllHotels();
 
-        final HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(hotels, RestRouter.Hotel.LIST);
-        return new ResponseEntity<>(hotels.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok(hotels);
     }
 
     @GetMapping(RestRouter.Hotel.VIEW)
     public ResponseEntity<Hotel> viewHotel(final @PathVariable Long id) {
         final Optional<Hotel> hotel = hotelRepository.findById(id);
 
-        return ResponseUtil.wrapOrNotFound(hotel);
+        return ResponseEntity.of(hotel);
     }
 
     @PostMapping(RestRouter.Hotel.LIST)
     public ResponseEntity<Hotel> editHotel(final @Valid @RequestBody HotelData hotelData) {
         final Optional<Hotel> hotel = hotelService.editHotel(hotelData);
 
-        return ResponseUtil.wrapOrNotFound(hotel);
+        return ResponseEntity.of(hotel);
     }
 
     @GetMapping(RestRouter.Hotel.SEARCH)
-    public ResponseEntity<List<Hotel>> searchHotels(final @ApiParam Pageable pageable, final @PathVariable String name,
+    public ResponseEntity<List<Hotel>> searchHotels(final @PathVariable String name,
             final @PathVariable(required = false) String address) {
-        final Page<Hotel> hotels = hotelService.search(pageable, name, address);
+        final List<Hotel> hotels = hotelService.search(name, address);
 
-        final HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(hotels, RestRouter.Hotel.LIST);
-        return new ResponseEntity<>(hotels.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok(hotels);
     }
 }

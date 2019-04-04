@@ -6,9 +6,8 @@ import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.model.HotelReviews;
 import com.hotelchallenge.repository.HotelRepository;
 import com.hotelchallenge.repository.ReviewsRepository;
+import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,9 +42,13 @@ public class ReviewsService {
     }
 
     @Transactional(readOnly = true)
-    public Page<HotelReviews> getAllReviews(final Pageable pageable, final Long hotelId) {
+    public List<HotelReviews> getAllReviews(final Long hotelId) {
         final Optional<Hotel> hotel = hotelRepository.findById(hotelId);
 
-        return hotel.map(h -> reviewsRepository.findAllByHotel(pageable, h)).orElse(null);
+        return hotel.map(reviewsRepository::findAllByHotel).orElse(null);
+    }
+
+    public Optional<HotelReviews> findReviewById(final long reviewId) {
+        return reviewsRepository.findById(reviewId);
     }
 }

@@ -8,9 +8,8 @@ import com.hotelchallenge.model.User;
 import com.hotelchallenge.repository.FavoriteRepository;
 import com.hotelchallenge.repository.HotelRepository;
 import com.hotelchallenge.repository.UserRepository;
+import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,8 +54,8 @@ public class FavoriteService {
         favoriteHotel.ifPresent(favoriteRepository::delete);
     }
 
-    public Page<FavoriteHotel> findAll(final Pageable pageable, final Long userId) {
+    public List<FavoriteHotel> findAll(final Long userId) {
         final User user = userRepository.getOne(userId);
-        return favoriteRepository.findAllByUser(pageable, user);
+        return favoriteRepository.findAllByUser(user);
     }
 }

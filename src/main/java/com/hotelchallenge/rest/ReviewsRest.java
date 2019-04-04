@@ -4,14 +4,8 @@ import com.hotelchallenge.constants.RestRouter;
 import com.hotelchallenge.data.ReviewData;
 import com.hotelchallenge.model.HotelReviews;
 import com.hotelchallenge.service.ReviewsService;
-import com.hotelchallenge.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import java.util.List;
 import javax.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,17 +26,17 @@ public class ReviewsRest {
     @PostMapping(path = RestRouter.Reviews.ADD,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     public ResponseEntity addReview(final @Valid @RequestBody ReviewData reviewData) {
+        final HotelReviews hotelReview = reviewsService.addReview(reviewData);
 
-        return ResponseEntity.ok().body(reviewsService.addReview(reviewData));
+        return ResponseEntity.ok(hotelReview);
     }
 
     @GetMapping(RestRouter.Reviews.LIST)
-    public ResponseEntity<List<HotelReviews>> getAllHotelReviews(final @ApiParam Pageable pageable,
-            final @PathVariable Long hotelId) {
-        final Page<HotelReviews> hotels = reviewsService.getAllReviews(pageable, hotelId);
+    public ResponseEntity<List<HotelReviews>> getAllHotelReviews(final @PathVariable Long hotelId) {
+        final List<HotelReviews> hotels = reviewsService.getAllReviews(hotelId);
 
-        final HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(hotels, RestRouter.Reviews.LIST);
-        return new ResponseEntity<>(hotels.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok(hotels);
     }
+
 
 }

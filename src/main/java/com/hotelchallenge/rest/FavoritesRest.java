@@ -3,15 +3,12 @@ package com.hotelchallenge.rest;
 import com.hotelchallenge.constants.RestRouter;
 import com.hotelchallenge.data.FavoritesData;
 import com.hotelchallenge.model.FavoriteHotel;
+import com.hotelchallenge.model.User;
 import com.hotelchallenge.service.FavoriteService;
-import com.hotelchallenge.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
+import com.hotelchallenge.service.UserService;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +22,11 @@ public class FavoritesRest {
 
     private final FavoriteService favoriteService;
 
-    public FavoritesRest(final FavoriteService favoriteService) {
+    private final UserService userService;
+
+    public FavoritesRest(final FavoriteService favoriteService, final UserService userService) {
         this.favoriteService = favoriteService;
+        this.userService = userService;
     }
 
     @PostMapping(path = RestRouter.Favorites.ADD,
@@ -43,12 +43,13 @@ public class FavoritesRest {
     }
 
     @GetMapping(RestRouter.Favorites.VIEW)
-    public ResponseEntity<List<FavoriteHotel>> viewFavoriteHotels(final @ApiParam Pageable pageable,
-            final @PathVariable Long userId) {
-        final Page<FavoriteHotel> favoriteHotels = favoriteService.findAll(pageable, userId);
+    public ResponseEntity<List<FavoriteHotel>> viewFavoriteHotels(final @PathVariable Long userId) {
+        final Optional<User> user = userService.findUserById(userId);
+        if (!user.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        final List<FavoriteHotel> favoriteHotels = favoriteService.findAll(userId);
 
-        final HttpHeaders headers = PaginationUtil
-                .generatePaginationHttpHeaders(favoriteHotels, RestRouter.Favorites.VIEW);
-        return new ResponseEntity<>(favoriteHotels.getContent(), headers, HttpStatus.OK);
+        return ResponseEntity.ok(favoriteHotels);
     }
 }

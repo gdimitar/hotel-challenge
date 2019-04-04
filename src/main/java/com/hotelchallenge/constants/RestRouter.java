@@ -37,4 +37,14 @@ public final class RestRouter {
 
         }
     }
+
+    public class Like {
+
+        public static final String ADD = "/api/likes/add";
+        public static final String REMOVE = "/api/likes/remove";
+
+        private Like() {
+
+        }
+    }
 }
