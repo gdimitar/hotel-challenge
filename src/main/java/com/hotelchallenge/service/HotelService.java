@@ -4,9 +4,8 @@ import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.mapper.HotelMapper;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.repository.HotelRepository;
+import java.util.List;
 import java.util.Optional;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -32,8 +31,8 @@ public class HotelService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Hotel> getAllHotels(final Pageable pageable) {
-        return hotelRepository.findAllOrderByNameAsc(pageable);
+    public List<Hotel> getAllHotels() {
+        return hotelRepository.findAllOrderByNameAsc();
     }
 
     public Optional<Hotel> editHotel(final HotelData hotelData) {
@@ -50,11 +49,11 @@ public class HotelService {
         return Optional.empty();
     }
 
-    public Page<Hotel> search(final Pageable pageable, final String name, final String address) {
+    public List<Hotel> search(final String name, final String address) {
         if (!StringUtils.isEmpty(address)) {
-            return hotelRepository.findAllByNameAndAddress(pageable, name, address);
+            return hotelRepository.findAllByNameAndAddress(name, address);
         } else {
-            return hotelRepository.findAllByName(pageable, name);
+            return hotelRepository.findAllByName(name);
         }
     }
 }
