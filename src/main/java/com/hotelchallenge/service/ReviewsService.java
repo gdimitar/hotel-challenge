@@ -1,6 +1,6 @@
 package com.hotelchallenge.service;
 
-import com.hotelchallenge.dto.ReviewDTO;
+import com.hotelchallenge.data.ReviewData;
 import com.hotelchallenge.mapper.HotelReviewsMapper;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.model.HotelReviews;
@@ -29,12 +29,12 @@ public class ReviewsService {
         this.hotelReviewsMapper = hotelReviewsMapper;
     }
 
-    public HotelReviews addReview(final ReviewDTO reviewDTO) {
-        final String hotelName = reviewDTO.getHotelName();
+    public HotelReviews addReview(final ReviewData reviewData) {
+        final String hotelName = reviewData.getHotelName();
         final Optional<Hotel> hotel = hotelRepository.findByName(hotelName);
 
         hotel.map(h -> {
-            final HotelReviews hotelReview = hotelReviewsMapper.createHotelReview(reviewDTO, h);
+            final HotelReviews hotelReview = hotelReviewsMapper.createHotelReview(reviewData, h);
             reviewsRepository.save(hotelReview);
             return hotelReview;
         });

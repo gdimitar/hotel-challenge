@@ -3,7 +3,7 @@ package com.hotelchallenge.service;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import com.hotelchallenge.dto.HotelDTO;
+import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.mapper.HotelMapper;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.repository.HotelRepository;
@@ -29,7 +29,7 @@ public class HotelServiceTest {
     @Mock
     private Hotel hotel;
 
-    private final HotelDTO hotelDTO = new HotelDTO();
+    private final HotelData hotelData = new HotelData();
 
     @Before
     public void setUp() {
@@ -38,25 +38,25 @@ public class HotelServiceTest {
 
     @Test
     public void testCreateHotel() {
-        doReturn(hotel).when(hotelMapper).createHotel(hotelDTO);
+        doReturn(hotel).when(hotelMapper).createHotel(hotelData);
 
-        hotelService.createHotel(hotelDTO);
+        hotelService.createHotel(hotelData);
 
         verify(hotelRepository).save(hotel);
     }
 
     @Test
     public void testEditHotel() {
-        doReturn(Optional.of(hotel)).when(hotelRepository).findById(hotelDTO.getId());
-        hotelDTO.setName(HOTEL_NAME);
+        doReturn(Optional.of(hotel)).when(hotelRepository).findById(hotelData.getId());
+        hotelData.setName(HOTEL_NAME);
 
-        hotelService.editHotel(hotelDTO);
+        hotelService.editHotel(hotelData);
 
         verify(hotelRepository).save(hotel);
     }
 
     @Test
     public void testEditHotelEmptyHotelName() {
-        assertEquals(Optional.empty(), hotelService.editHotel(hotelDTO));
+        assertEquals(Optional.empty(), hotelService.editHotel(hotelData));
     }
 }

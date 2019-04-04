@@ -1,7 +1,7 @@
 package com.hotelchallenge.mapper;
 
 import com.hotelchallenge.constants.RoleConstants;
-import com.hotelchallenge.dto.UserDTO;
+import com.hotelchallenge.data.UserData;
 import com.hotelchallenge.model.Role;
 import com.hotelchallenge.model.User;
 import com.hotelchallenge.repository.RoleRepository;
@@ -21,12 +21,12 @@ public class UserMapper {
         this.roleRepository = roleRepository;
     }
 
-    public User createUser(final UserDTO userDTO) {
+    public User createUser(final UserData userData) {
         final User user = new User();
 
-        user.setEmail(userDTO.getEmail());
-        user.setDisplayName(userDTO.getDisplayName());
-        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setEmail(userData.getEmail());
+        user.setDisplayName(userData.getDisplayName());
+        user.setPassword(passwordEncoder.encode(userData.getPassword()));
         final Set<Role> roles = new HashSet<>();
 
         final Role role = roleRepository.getOne(RoleConstants.ROLE_REGULAR_USER);

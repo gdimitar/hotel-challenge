@@ -1,7 +1,7 @@
 package com.hotelchallenge.rest;
 
 import com.hotelchallenge.constants.RestRouter;
-import com.hotelchallenge.dto.FavoritesDTO;
+import com.hotelchallenge.data.FavoritesData;
 import com.hotelchallenge.model.FavoriteHotel;
 import com.hotelchallenge.service.FavoriteService;
 import com.hotelchallenge.util.PaginationUtil;
@@ -31,8 +31,8 @@ public class FavoritesRest {
 
     @PostMapping(path = RestRouter.Favorites.ADD,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<FavoriteHotel> addToFavorite(final @Valid @RequestBody FavoritesDTO favoritesDTO) {
-        return ResponseEntity.ok().body(favoriteService.addHotelToFavorite(favoritesDTO));
+    public ResponseEntity<FavoriteHotel> addToFavorite(final @Valid @RequestBody FavoritesData favoritesData) {
+        return ResponseEntity.ok().body(favoriteService.addHotelToFavorite(favoritesData));
     }
 
     @PostMapping(path = RestRouter.Favorites.REMOVE,

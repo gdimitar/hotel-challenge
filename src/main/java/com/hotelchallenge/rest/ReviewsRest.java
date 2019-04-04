@@ -1,7 +1,7 @@
 package com.hotelchallenge.rest;
 
 import com.hotelchallenge.constants.RestRouter;
-import com.hotelchallenge.dto.ReviewDTO;
+import com.hotelchallenge.data.ReviewData;
 import com.hotelchallenge.model.HotelReviews;
 import com.hotelchallenge.service.ReviewsService;
 import com.hotelchallenge.util.PaginationUtil;
@@ -31,9 +31,9 @@ public class ReviewsRest {
 
     @PostMapping(path = RestRouter.Reviews.ADD,
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity addReview(final @Valid @RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity addReview(final @Valid @RequestBody ReviewData reviewData) {
 
-        return ResponseEntity.ok().body(reviewsService.addReview(reviewDTO));
+        return ResponseEntity.ok().body(reviewsService.addReview(reviewData));
     }
 
     @GetMapping(RestRouter.Reviews.LIST)

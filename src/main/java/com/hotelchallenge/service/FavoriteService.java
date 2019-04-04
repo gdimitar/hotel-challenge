@@ -1,6 +1,6 @@
 package com.hotelchallenge.service;
 
-import com.hotelchallenge.dto.FavoritesDTO;
+import com.hotelchallenge.data.FavoritesData;
 import com.hotelchallenge.mapper.FavoriteMapper;
 import com.hotelchallenge.model.FavoriteHotel;
 import com.hotelchallenge.model.Hotel;
@@ -31,13 +31,13 @@ public class FavoriteService {
         this.hotelRepository = hotelRepository;
     }
 
-    public FavoriteHotel addHotelToFavorite(final FavoritesDTO favoritesDTO) {
-        if (favoritesDTO == null) {
+    public FavoriteHotel addHotelToFavorite(final FavoritesData favoritesData) {
+        if (favoritesData == null) {
             throw new IllegalArgumentException("Cannot add hotel to the list of favorite hotels!");
         }
 
-        final Optional<User> user = userRepository.findByEmail(favoritesDTO.getUserEmail());
-        final Optional<Hotel> hotel = hotelRepository.findByName(favoritesDTO.getHotelName());
+        final Optional<User> user = userRepository.findByEmail(favoritesData.getUserEmail());
+        final Optional<Hotel> hotel = hotelRepository.findByName(favoritesData.getHotelName());
 
         if (user.isPresent() && hotel.isPresent()) {
             final FavoriteHotel favoriteHotel = favoriteMapper.createFavoriteHotel(user.get(), hotel.get());

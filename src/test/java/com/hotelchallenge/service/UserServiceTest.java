@@ -2,7 +2,7 @@ package com.hotelchallenge.service;
 
 import static org.mockito.Mockito.*;
 
-import com.hotelchallenge.dto.UserDTO;
+import com.hotelchallenge.data.UserData;
 import com.hotelchallenge.mapper.UserMapper;
 import com.hotelchallenge.model.User;
 import org.junit.Before;
@@ -21,19 +21,19 @@ public class UserServiceTest {
     @Mock
     private User user;
 
-    private final UserDTO userDTO = new UserDTO();
+    private final UserData userData = new UserData();
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        doReturn(user).when(userMapper).createUser(userDTO);
+        doReturn(user).when(userMapper).createUser(userData);
     }
 
     @Test
     public void testRegisterUser() {
-        service.createUser(userDTO);
+        service.createUser(userData);
 
-        verify(userMapper).createUser(userDTO);
+        verify(userMapper).createUser(userData);
     }
 }

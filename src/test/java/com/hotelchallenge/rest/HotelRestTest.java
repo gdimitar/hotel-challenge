@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.hotelchallenge.TestApplication;
 import com.hotelchallenge.constants.RestRouter;
-import com.hotelchallenge.dto.HotelDTO;
+import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.model.Hotel;
 import com.hotelchallenge.repository.HotelRepository;
 import java.util.Arrays;
@@ -27,12 +27,12 @@ public class HotelRestTest extends TestApplication {
     @Test
     @Transactional
     public void testRegisterHotel() throws Exception {
-        final HotelDTO hotelDTO = new HotelDTO("hotelName", "hotelAddress", "hotelImg", "hotelDescription",
+        final HotelData hotelData = new HotelData("hotelName", "hotelAddress", "hotelImg", "hotelDescription",
                 10L, 20L, 5L);
 
         mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.Hotel.REGISTER)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(hotelDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(hotelData)))
                 .andExpect(status().isOk());
 
         final Optional<Hotel> hotel = hotelRepository.findByName("hotelName");
@@ -59,12 +59,12 @@ public class HotelRestTest extends TestApplication {
     @Test
     @Transactional
     public void testViewHotel() throws Exception {
-        final HotelDTO hotelDTO = new HotelDTO("hotelName", "hotelAddress", "hotelImg", "hotelDescription",
+        final HotelData hotelData = new HotelData("hotelName", "hotelAddress", "hotelImg", "hotelDescription",
                 10L, 20L, 5L);
 
         final MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.Hotel.REGISTER)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(hotelDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(hotelData)))
                 .andExpect(status().isOk()).andReturn();
 
         final String hotelId = mvcResult.getResponse().getContentAsString();
@@ -72,43 +72,43 @@ public class HotelRestTest extends TestApplication {
         final MvcResult result = mockMvc
                 .perform(MockMvcRequestBuilders.get(RestRouter.Hotel.VIEW, Long.valueOf(hotelId))
                         .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                        .content(TestUtil.convertObjectToJsonBytes(hotelDTO)))
+                        .content(TestUtil.convertObjectToJsonBytes(hotelData)))
                 .andExpect(status().isOk()).andReturn();
 
         final String jsonResponse = result.getResponse().getContentAsString();
-        assertJsonResponse(Long.valueOf(hotelId), hotelDTO.getName(), hotelDTO.getAddress(), hotelDTO.getImage(),
-                hotelDTO.getDescription(), hotelDTO.getLatitude(), hotelDTO.getLongitude(), hotelDTO.getRating(),
+        assertJsonResponse(Long.valueOf(hotelId), hotelData.getName(), hotelData.getAddress(), hotelData.getImage(),
+                hotelData.getDescription(), hotelData.getLatitude(), hotelData.getLongitude(), hotelData.getRating(),
                 jsonResponse);
     }
 
     @Test
     @Transactional
     public void testEditHotel() throws Exception {
-        final HotelDTO hotelDTO = new HotelDTO("hotelName", "hotelAddress", "hotelImg", "hotelDescription",
+        final HotelData hotelData = new HotelData("hotelName", "hotelAddress", "hotelImg", "hotelDescription",
                 10L, 20L, 5L);
 
         final MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.Hotel.REGISTER)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(hotelDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(hotelData)))
                 .andExpect(status().isOk()).andReturn();
 
         final String hotelId = mvcResult.getResponse().getContentAsString();
 
-        final HotelDTO newHotelDTO = new HotelDTO("newHotelName", "newHotelAddress", "newHotelImg",
+        final HotelData newHotelData = new HotelData("newHotelName", "newHotelAddress", "newHotelImg",
                 "newHotelDescription",
                 20L, 40L, 10L);
-        newHotelDTO.setId(Long.valueOf(hotelId));
+        newHotelData.setId(Long.valueOf(hotelId));
 
         final MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(RestRouter.Hotel.LIST)
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(newHotelDTO)))
+                .content(TestUtil.convertObjectToJsonBytes(newHotelData)))
                 .andExpect(status().isOk()).andReturn();
 
         final String jsonResponse = result.getResponse().getContentAsString();
-        assertJsonResponse(Long.valueOf(hotelId), newHotelDTO.getName(), newHotelDTO.getAddress(),
-                newHotelDTO.getImage(),
-                newHotelDTO.getDescription(), newHotelDTO.getLatitude(), newHotelDTO.getLongitude(),
-                newHotelDTO.getRating(), jsonResponse);
+        assertJsonResponse(Long.valueOf(hotelId), newHotelData.getName(), newHotelData.getAddress(),
+                newHotelData.getImage(),
+                newHotelData.getDescription(), newHotelData.getLatitude(), newHotelData.getLongitude(),
+                newHotelData.getRating(), jsonResponse);
     }
 
     private Hotel createHotel(final String name, final String address, final String image, final String description,

@@ -1,31 +1,31 @@
 package com.hotelchallenge.mapper;
 
-import com.hotelchallenge.dto.HotelDTO;
+import com.hotelchallenge.data.HotelData;
 import com.hotelchallenge.model.Hotel;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HotelMapper {
 
-    public Hotel createHotel(final HotelDTO hotelDTO) {
+    public Hotel createHotel(final HotelData hotelData) {
         final Hotel hotel = new Hotel();
-        setFields(hotel, hotelDTO);
+        setFields(hotel, hotelData);
 
         return hotel;
     }
 
-    public void updateHotel(final Hotel hotel, final HotelDTO hotelDTO) {
-        setFields(hotel, hotelDTO);
+    public void updateHotel(final Hotel hotel, final HotelData hotelData) {
+        setFields(hotel, hotelData);
 
     }
 
-    private void setFields(final Hotel hotel, final HotelDTO hotelDTO) {
-        hotel.setName(hotelDTO.getName());
-        hotel.setAddress(hotelDTO.getAddress());
-        hotel.setDescription(hotelDTO.getDescription());
-        hotel.setImage(hotelDTO.getImage());
-        hotel.setLatitude(hotelDTO.getLatitude());
-        hotel.setLongitude(hotelDTO.getLongitude());
-        hotel.setRating(hotelDTO.getRating());
+    private void setFields(final Hotel hotel, final HotelData hotelData) {
+        hotel.setName(hotelData.getName());
+        hotel.setAddress(hotelData.getAddress());
+        hotel.setDescription(hotelData.getDescription());
+        hotel.setImage(hotelData.getImage());
+        hotel.setLatitude(hotelData.getLatitude());
+        hotel.setLongitude(hotelData.getLongitude());
+        hotel.setRating(hotelData.getRating());
     }
 }

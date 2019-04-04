@@ -1,6 +1,6 @@
 package com.hotelchallenge.service;
 
-import com.hotelchallenge.dto.UserDTO;
+import com.hotelchallenge.data.UserData;
 import com.hotelchallenge.mapper.UserMapper;
 import com.hotelchallenge.model.User;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public User createUser(final UserDTO userDTO) {
-        return userMapper.createUser(userDTO);
+    public User createUser(final UserData userData) {
+        return userMapper.createUser(userData);
     }
 }
